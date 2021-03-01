@@ -1,4 +1,8 @@
 package com.mosin.mvp_kotlin.mvp.view
 
-class MainView {
+interface MainView {
+
+    fun setBtnTextOne(text: String)
+    fun setBtnTextTwo(text: String)
+    fun setBtnTextThree(text: String)
 }
