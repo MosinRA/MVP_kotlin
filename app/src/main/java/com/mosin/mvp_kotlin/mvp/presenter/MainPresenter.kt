@@ -1,23 +1,19 @@
 package com.mosin.mvp_kotlin.mvp.presenter
 
-import com.mosin.mvp_kotlin.mvp.model.CountersModel
-import com.mosin.mvp_kotlin.mvp.view.MainView
+import com.github.terrakok.cicerone.Router
+import com.mosin.mvp_kotlin.mvp.model.entity.GitHubUser
+import com.mosin.mvp_kotlin.mvp.navigation.IScreens
+import com.mosin.mvp_kotlin.mvp.view.UsersView
+import moxy.MvpPresenter
 
-class MainPresenter(val mainView: MainView) {
-    val model = CountersModel()
+class MainPresenter(val router: Router, val screens: IScreens) : MvpPresenter<UsersView>() {
 
-    fun counterClickOne() {
-        val nextValue = model.next(0)
-        mainView.setBtnTextOne(nextValue.toString())
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        router.replaceScreen(screens.users())
     }
 
-    fun counterClickTwo() {
-        val nextValue = model.next(1)
-        mainView.setBtnTextTwo(nextValue.toString())
-    }
-
-    fun counterClickThree() {
-        val nextValue = model.next(2)
-        mainView.setBtnTextThree(nextValue.toString())
+    fun backPressed() {
+        router.exit()
     }
 }
