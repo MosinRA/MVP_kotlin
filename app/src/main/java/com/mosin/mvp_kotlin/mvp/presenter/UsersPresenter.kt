@@ -39,10 +39,12 @@ class UsersPresenter(val usersRepo: GitHubUsersRepo, val router: Router, val scr
     }
 
     fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.clear()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        usersRepo.getUsers().subscribe({ listUsers ->
+            usersListPresenter.users.addAll(listUsers)
+            viewState.updateList()
+        }, { error ->
+            println("onError: ${error.message}")
+        })
     }
 
     fun backClick(): Boolean {

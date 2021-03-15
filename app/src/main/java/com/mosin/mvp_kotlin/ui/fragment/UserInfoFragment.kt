@@ -15,17 +15,19 @@ import moxy.ktx.moxyPresenter
 class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, IBackClickListener {
 
     companion object {
-        lateinit var currentUser: GitHubUser
-        fun newInstance(user: GitHubUser): UserInfoFragment {
-            currentUser = user
-            return UserInfoFragment()
+        private const val USER_ARG = "user"
+        fun newInstance(user: GitHubUser) = UserInfoFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(USER_ARG, user)
+            }
         }
     }
 
     private var ui: FragmentUserInfoBinding? = null
 
     private val presenter by moxyPresenter {
-        UserInfoPresenter(App.instance.router)
+        val user = arguments?.getParcelable<GitHubUser>(USER_ARG) as GitHubUser
+        UserInfoPresenter(App.instance.router, user)
     }
 
     override fun onCreateView(
@@ -44,7 +46,7 @@ class UserInfoFragment : MvpAppCompatFragment(), UserInfoView, IBackClickListene
 
     override fun backPressed(): Boolean = presenter.backClick()
 
-    override fun initUserInfo() {
-        ui?.userLogin?.text = currentUser.login
+    override fun setLogin(text: String) {
+        ui?.userLogin?.text = text
     }
 }
