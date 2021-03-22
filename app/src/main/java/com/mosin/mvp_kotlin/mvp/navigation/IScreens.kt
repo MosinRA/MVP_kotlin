@@ -5,5 +5,5 @@ import com.mosin.mvp_kotlin.mvp.model.entity.GitHubUser
 
 interface IScreens {
     fun users(): Screen
-    fun user(user: GitHubUser) : Screen
+    fun user(user: GitHubUser): Screen
 }

@@ -1,15 +1,23 @@
 package com.mosin.mvp_kotlin.mvp.presenter
 
 import com.github.terrakok.cicerone.Router
-import com.mosin.mvp_kotlin.mvp.model.GitHubUsersRepo
 import com.mosin.mvp_kotlin.mvp.model.entity.GitHubUser
+import com.mosin.mvp_kotlin.mvp.model.repo.IGitHubUsersRepo
 import com.mosin.mvp_kotlin.mvp.navigation.IScreens
 import com.mosin.mvp_kotlin.mvp.presenter.list.IUserListPresenter
 import com.mosin.mvp_kotlin.mvp.view.UsersView
 import com.mosin.mvp_kotlin.mvp.view.list.IUserItemView
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GitHubUsersRepo, val router: Router, val screen: IScreens) :
+class UsersPresenter(
+    val uiScheduler: Scheduler,
+    val usersRepo: IGitHubUsersRepo,
+    val router: Router,
+    val screen: IScreens,
+
+    ) :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
@@ -20,12 +28,14 @@ class UsersPresenter(val usersRepo: GitHubUsersRepo, val router: Router, val scr
         override fun bindView(view: IUserItemView) {
             val user = users[view.pos]
             view.setLogin(user.login)
+            view.loadAvatar(user.avatarUrl)
         }
 
         override fun getCount() = users.size
     }
 
     val usersListPresenter = UsersListPresenter()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -39,16 +49,24 @@ class UsersPresenter(val usersRepo: GitHubUsersRepo, val router: Router, val scr
     }
 
     fun loadData() {
-        usersRepo.getUsers().subscribe({ listUsers ->
-            usersListPresenter.users.addAll(listUsers)
-            viewState.updateList()
-        }, { error ->
-            println("onError: ${error.message}")
-        })
+        val disposable = usersRepo.getUsers()
+            .observeOn(uiScheduler)
+            .subscribe({ usersList ->
+                usersListPresenter.users.addAll(usersList)
+                viewState.updateList()
+            }, { error ->
+                error.printStackTrace()
+            })
+        compositeDisposable.add(disposable)
     }
 
     fun backClick(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.dispose()
+        super.onDestroy()
     }
 }
