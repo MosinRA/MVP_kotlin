@@ -39,7 +39,7 @@ class UserInfoPresenter(
         super.onFirstViewAttach()
         viewState.init()
         viewState.setLogin(user.login)
-        viewState.setImage(user.avatarUrl)
+//        user.avatarUrl?.let { viewState.setImage(it) }
         loadRepos()
 
         userReposListPresenter.itemClickListener = { view ->

@@ -9,7 +9,7 @@ interface UserInfoView : MvpView {
     fun init()
     fun updateReposList()
     fun setLogin(text: String)
-    fun setImage(url: String)
+//    fun setImage(url: String)
 
     @OneExecution
     fun showRepoInfo(scoreFork: Int, scoreViews: Int, language: String)
