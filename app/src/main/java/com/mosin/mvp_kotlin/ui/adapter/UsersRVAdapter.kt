@@ -8,9 +8,13 @@ import com.mosin.mvp_kotlin.databinding.ItemUserBinding
 import com.mosin.mvp_kotlin.mvp.model.image.IImageLoader
 import com.mosin.mvp_kotlin.mvp.presenter.list.IUserListPresenter
 import com.mosin.mvp_kotlin.mvp.view.list.IUserItemView
+import javax.inject.Inject
 
-class UsersRVAdapter(val presenter: IUserListPresenter, val imageLoader: IImageLoader<ImageView>) :
+class UsersRVAdapter(val presenter: IUserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)

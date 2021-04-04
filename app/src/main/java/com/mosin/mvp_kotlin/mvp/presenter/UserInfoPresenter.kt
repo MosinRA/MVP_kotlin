@@ -1,8 +1,10 @@
 package com.mosin.mvp_kotlin.mvp.presenter
 
+import android.widget.ImageView
 import com.github.terrakok.cicerone.Router
 import com.mosin.mvp_kotlin.mvp.model.entity.GitHubRepo
 import com.mosin.mvp_kotlin.mvp.model.entity.GitHubUser
+import com.mosin.mvp_kotlin.mvp.model.image.IImageLoader
 import com.mosin.mvp_kotlin.mvp.model.repo.IGitHubUserRepos
 import com.mosin.mvp_kotlin.mvp.presenter.list.IUserRepoListPresenter
 import com.mosin.mvp_kotlin.mvp.view.UserInfoView
@@ -10,14 +12,25 @@ import com.mosin.mvp_kotlin.mvp.view.list.IUserReposItemView
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
+import javax.inject.Named
 
 class UserInfoPresenter(
-    val uiScheduler: Scheduler,
-    val router: Router,
-    val user: GitHubUser,
-    val repos: IGitHubUserRepos
-) :
+    val user: GitHubUser) :
     MvpPresenter<UserInfoView>() {
+
+    @Inject
+    lateinit var repos: IGitHubUserRepos
+
+    @field:Named("ui")
+    @Inject
+    lateinit var uiScheduler: Scheduler
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
 
     class UserReposListPresenter : IUserRepoListPresenter {
 

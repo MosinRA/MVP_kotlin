@@ -1,8 +1,9 @@
 package com.mosin.mvp_kotlin.ui
 
 import android.app.Application
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
+import com.mosin.mvp_kotlin.di.AppComponent
+import com.mosin.mvp_kotlin.di.DaggerAppComponent
+import com.mosin.mvp_kotlin.di.modules.AppModule
 import com.mosin.mvp_kotlin.mvp.model.entity.room.db.Database
 
 class App : Application() {
@@ -11,16 +12,15 @@ class App : Application() {
         lateinit var instance: App
     }
 
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         Database.create(this)
-    }
 
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
+    }
 }

@@ -10,15 +10,24 @@ import com.mosin.mvp_kotlin.mvp.view.list.IUserItemView
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
+import javax.inject.Named
 
-class UsersPresenter(
-    val uiScheduler: Scheduler,
-    val usersRepo: IGitHubUsersRepo,
-    val router: Router,
-    val screen: IScreens,
+class UsersPresenter() : MvpPresenter<UsersView>() {
 
-    ) :
-    MvpPresenter<UsersView>() {
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var usersRepo: IGitHubUsersRepo
+
+    @field:Named("ui")
+    @Inject
+    lateinit var uiScheduler: Scheduler
+
 
     class UsersListPresenter : IUserListPresenter {
 
@@ -44,7 +53,7 @@ class UsersPresenter(
 
         usersListPresenter.itemClickListener = { view ->
             val user = usersListPresenter.users[view.pos]
-            router.navigateTo(screen.user(user))
+            router.navigateTo(screens.user(user))
         }
     }
 
@@ -55,7 +64,7 @@ class UsersPresenter(
                 usersListPresenter.users.addAll(usersList)
                 viewState.updateList()
             }, { error ->
-                error.printStackTrace()
+                println("Error: ${error.message}")
             })
         compositeDisposable.add(disposable)
     }

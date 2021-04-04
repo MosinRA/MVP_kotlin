@@ -2,10 +2,13 @@ package com.mosin.mvp_kotlin.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.mosin.mvp_kotlin.databinding.ItemRepoBinding
+import com.mosin.mvp_kotlin.mvp.model.image.IImageLoader
 import com.mosin.mvp_kotlin.mvp.presenter.list.IUserRepoListPresenter
 import com.mosin.mvp_kotlin.mvp.view.list.IUserReposItemView
+import javax.inject.Inject
 
 class UserReposAdapter(val presenter: IUserRepoListPresenter) :
     RecyclerView.Adapter<UserReposAdapter.ViewHolder>() {

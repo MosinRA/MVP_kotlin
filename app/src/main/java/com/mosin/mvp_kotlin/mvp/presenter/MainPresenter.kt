@@ -4,8 +4,12 @@ import com.github.terrakok.cicerone.Router
 import com.mosin.mvp_kotlin.mvp.navigation.IScreens
 import com.mosin.mvp_kotlin.mvp.view.UsersView
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class MainPresenter(val router: Router, val screens: IScreens) : MvpPresenter<UsersView>() {
+class MainPresenter() : MvpPresenter<UsersView>() {
+
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

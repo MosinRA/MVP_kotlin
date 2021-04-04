@@ -16,7 +16,7 @@ import com.mosin.mvp_kotlin.mvp.model.entity.room.dao.UserDao
         RoomGitHubRepo::class,
         RoomCachedImage::class
     ],
-    version = 2
+    version = 1
 )
 abstract class Database: RoomDatabase() {
     abstract val userDao: UserDao
@@ -24,7 +24,7 @@ abstract class Database: RoomDatabase() {
     abstract val imageDao: ImageDao
 
     companion object{
-        private const val DB_NAME = "db.db"
+        const val DB_NAME = "dbGH.db"
         private var instance: Database? = null
         fun getInstance() = instance?: throw IllegalAccessException("База данных не создана")
         fun create (context: Context){

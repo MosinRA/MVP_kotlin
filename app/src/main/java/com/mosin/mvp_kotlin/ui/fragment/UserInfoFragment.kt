@@ -24,6 +24,7 @@ import com.mosin.mvp_kotlin.ui.network.AndroidNetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserInfoFragment() : MvpAppCompatFragment(),
     UserInfoView, IBackClickListener {
@@ -43,15 +44,9 @@ class UserInfoFragment() : MvpAppCompatFragment(),
     private val presenter by moxyPresenter {
         val user = arguments?.getParcelable<GitHubUser>(USER_ARG) as GitHubUser
         UserInfoPresenter(
-            AndroidSchedulers.mainThread(),
-            App.instance.router,
-            user,
-            RetrofitGithubRepos(
-                ApiHolder.api,
-                AndroidNetworkStatus(App.instance),
-                CacheRepo(Database.getInstance())
-            )
-        )
+            user).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreateView(
