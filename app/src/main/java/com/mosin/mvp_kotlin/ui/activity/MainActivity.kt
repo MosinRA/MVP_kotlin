@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
-    @Inject lateinit var navigatorHolder: NavigatorHolder
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
 
     val navigator = AppNavigator(this, R.id.container)
     private var ui: ActivityMainBinding? = null

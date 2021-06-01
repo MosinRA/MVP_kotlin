@@ -10,6 +10,7 @@ import com.mosin.mvp_kotlin.mvp.presenter.list.IUserListPresenter
 import com.mosin.mvp_kotlin.mvp.view.list.IUserItemView
 import javax.inject.Inject
 
+
 class UsersRVAdapter(val presenter: IUserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
 
@@ -29,6 +30,7 @@ class UsersRVAdapter(val presenter: IUserListPresenter) :
 
     inner class ViewHolder(val vb: ItemUserBinding) : RecyclerView.ViewHolder(vb.root),
         IUserItemView {
+
         override var pos = -1
 
         override fun setLogin(text: String) = with(vb) {
@@ -39,4 +41,12 @@ class UsersRVAdapter(val presenter: IUserListPresenter) :
             imageLoader.load(url, ivAvatar)
         }
     }
+
+    fun onItemMove(fromPosition: Int, toPosition: Int) {
+        notifyItemMoved(fromPosition, toPosition)
+    }
 }
+
+
+
+
