@@ -3,7 +3,6 @@ package com.mosin.mvp_kotlin.mvp.model.entity.room
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
 
 @Entity(
     foreignKeys = [ForeignKey(

@@ -8,8 +8,10 @@ import javax.inject.Inject
 
 class MainPresenter() : MvpPresenter<UsersView>() {
 
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
+    @Inject
+    lateinit var router: Router
+    @Inject
+    lateinit var screens: IScreens
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

@@ -8,7 +8,7 @@ import com.mosin.mvp_kotlin.ui.navigation.AndroidScreens
 import dagger.Module
 import dagger.Provides
 
-@Module
+    @Module
 class CiceroneModule {
 
     val cicerone: Cicerone<Router> = Cicerone.create()
